@@ -7,16 +7,15 @@ import (
 )
 
 type DataRepository interface {
-	ShowData(DataUser string) (models.Data, error)
+	ShowData(post models.Data) (models.Data, error)
 }
 
 func RepositoryData(db *gorm.DB) *repository {
 	return &repository{db}
 }
 
-func (r *repository) ShowData(DataUser string) (models.Data, error) {
-	var data models.Data
-	err := r.db.Where("data_user=?", DataUser).First(&data).Error
+func (r *repository) ShowData(Post models.Data) (models.Data, error) {
+	err := r.db.Create(&Post).Error
 
-	return data, err
+	return Post, err
 }
